@@ -2,8 +2,8 @@ import { useState } from "react";
 import "./LoginForm.css";
 function LoginFrom({ onLogin }) {
   const [formData, setFormData] = useState({
-    username: "",
-    password: ""
+    username: " ",
+    password: " "
   });
 
   function handleInputChange(event) {
@@ -12,7 +12,17 @@ function LoginFrom({ onLogin }) {
   }
 
   function loginHandler() {
-    onLogin(formData);
+    const authentication = [{ username: "username1", password: "pass@123" }];
+    const matchingUser = authentication.find(
+      (user) =>
+        user.username === formData.username &&
+        user.password === formData.password
+    );
+
+    if (matchingUser) {
+      onLogin(formData);
+      setError("");
+    } else setError("Invalid username or password. Please try again.");
   }
   return (
     <div className="loginSection">
@@ -31,6 +41,7 @@ function LoginFrom({ onLogin }) {
         value={formData.password}
       />
       <button onClick={loginHandler}>Login</button>
+         {error ? <p>{error}</p> : " "}
     </div>
   );
 }
